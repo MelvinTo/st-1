@@ -5,8 +5,9 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrainsMono Nerd Font :pixelsize=15:antialias=true:autohint=true";
-static char *font2[] = { "blobmoji :pixelsize=15:antialias=true:autohint=true" };
+//static char *font = "Noto Emoji :pixelsize=18:antialias=true:autohint=true";
+static char *font = "Source Code Pro :pixelsize=18:antialias=true:autohint=true";
+static char *font2[] = { "Noto Emoji :pixelsize=18:antialias=true:autohint=true" };
 static int borderpx = 0;
 
 /*
@@ -17,7 +18,7 @@ static int borderpx = 0;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/bin/bash";
 char *utmp = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
@@ -114,7 +115,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 1.0;
+float alpha = 0.95;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -165,8 +166,8 @@ static unsigned int cursorshape = 2;
  * Default columns and rows numbers
  */
 
-static unsigned int cols = 80;
-static unsigned int rows = 24;
+static unsigned int cols = 128;
+static unsigned int rows = 40;
 
 /*
  * Default colour and shape of the mouse cursor
