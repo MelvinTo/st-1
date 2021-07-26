@@ -681,6 +681,8 @@ setsel(char *str, Time t)
 	XSetSelectionOwner(xw.dpy, XA_PRIMARY, xw.win, t);
 	if (XGetSelectionOwner(xw.dpy, XA_PRIMARY) != xw.win)
 		selclear();
+
+	clipcopy(NULL);
 }
 
 void
@@ -2109,8 +2111,10 @@ run(void)
 }
 
 #define XRESOURCE_LOAD_META(NAME)					\
-	if(!XrmGetResource(xrdb, "st." NAME, "st." NAME, &type, &ret))	\
+	if(!XrmGetResource(xrdb, "st." NAME, "st." NAME, &type, &ret)) {	\
+		printf("xxx %s\n", NAME);\
 		XrmGetResource(xrdb, "*." NAME, "*." NAME, &type, &ret); \
+	} \
 	if (ret.addr != NULL && !strncmp("String", type, 64))
 
 #define XRESOURCE_LOAD_STRING(NAME, DST)	\
@@ -2168,8 +2172,10 @@ xrdb_load(void)
 				colorname[i] = ret.addr;
 		}
 
-		XRESOURCE_LOAD_STRING("foreground", colorname[defaultfg]);
+ 		XRESOURCE_LOAD_STRING("foreground", colorname[defaultfg]);
+		printf("before bg: %s\n", colorname[defaultbg]);
 		XRESOURCE_LOAD_STRING("background", colorname[defaultbg]);
+		printf("bg: %s\n", colorname[defaultbg]);
 		XRESOURCE_LOAD_STRING("cursorfg", colorname[defaultcs])
 		else {
 		  // this looks confusing because we are chaining off of the if
@@ -2214,7 +2220,7 @@ xrdb_load(void)
 void
 reload(int sig)
 {
-	xrdb_load();
+//	xrdb_load();
 
 	/* colors, fonts */
 	xloadcols();
@@ -2282,8 +2288,8 @@ config_init(void)
 		return;
 
 	db = XrmGetStringDatabase(resm);
-	for (p = resources; p < resources + LEN(resources); p++)
-		resource_load(db, p->name, p->type, p->dst);
+//	for (p = resources; p < resources + LEN(resources); p++)
+//		resource_load(db, p->name, p->type, p->dst);
 }
 
 void
@@ -2362,7 +2368,7 @@ run:
 
 	setlocale(LC_CTYPE, "");
 	XSetLocaleModifiers("");
-        xrdb_load();
+//      xrdb_load();
 	signal(SIGUSR1, reload);
 
 	if(!(xw.dpy = XOpenDisplay(NULL)))
